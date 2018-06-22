@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<style>
+	a {
+		text-decoration: none;
+		color: #fff;
+		font: 16px/30px "微软雅黑";
+		width: 30px;
+		background-color: #ccc;
+		text-align: center;
+		margin: 0 5px;
+	}
+	body {
+		margin: 0;
+	}
+	.clearFix:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+	.pageBox {
+		margin: 100px 300px;
+	}
+	.pageBox > a {
+		float: left;
+	}
+	.pageBox > div {
+		float: left;
+	}
+	
+	.pageBox > div > a {
+		float: left;
+	}
+	
+	.pageBox > div > a.active {
+		background-color: #409EFF;
+	}
+</style>
+<body>
+	<ul id="contentBox">
+
+	</ul>
+	<div class="pageBox clearFix">
+		<a id="last" href="javascript:;">&lt;</a>
+		<div id="numberList"></div>
+		<a id="next" href="javascript:;">&gt;</a>
+	</div>
+</body>
+<script>
+	var a = 100;
+	var row = 5;
+	var num = a/row;
+	var last = document.getElementById('last');
+	var numberList = document.getElementById('numberList');
+	var as = numberList.children;
+	var next = document.getElementById('next');
+	var str = '';
+	var n = 0;
+	var cStr = '';
+	var contentBox = document.getElementById('contentBox');
+	
+	function page(start){
+		let p = start+row;
+		for( let i=start; i<p; i++ ){
+			cStr += '<li>'+ (i+1) +'</li>'
+		}
+		contentBox.innerHTML = cStr;
+	}
+	
+	page(0)
+	
+	
+	
+	
+	for( let i=1; i<num+1; i++ ){
+		
+		str += '<a href="javascript:;">'+ i +'</a>';
+		
+	}
+	
+	numberList.innerHTML = str;
+	as[n].className = 'active';
+	
+	last.onclick = function(){
+		cStr = '';
+		if( n <= 0 ){
+			alert('前面没有了！！！')
+			return
+		}
+		n --;
+		for( let i=0; i<as.length; i++ ){
+			as[i].className = '';
+		}
+		as[n].className = 'active';
+		page(n*row)
+		
+	};
+	
+	next.onclick = function(){
+		cStr = '';
+		if( n >= as.length-1 ){
+			alert('后面没有了！！！')
+			return
+		}
+		n ++;
+		for( let i=0; i<as.length; i++ ){
+			as[i].className = '';
+		}
+		as[n].className = 'active';
+		page(n*row)
+	}
+	
+	for( let i=0; i<as.length; i++ ){
+		as[i].onclick = function(){
+			cStr = '';
+			n = i;
+			for( let j=0; j<as.length; j++ ){
+				as[j].className = '';
+			}
+			this.className = 'active';
+			page(n*row)
+		}
+	}
+	
+	
+	
+	
+
+</script>
+</html>
